@@ -14,7 +14,7 @@ model=pkl.load(open("model.p","rb"))
 
 st.set_page_config(
     page_title="Loan Prediction App",
-    page_icon="/Users/mariia/Desktop/AWS/loan.png"
+    page_icon="loan.png"
 )
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -30,7 +30,7 @@ st.subheader("Are you sure your loan applicant is surely going to pay the loan b
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.image("/Users/mariia/Desktop/AWS/loan.png")
+    st.image("loan.png")
 
 with col2:
     st.write("""To borrow money, credit analysis is performed. Credit analysis involves the measure to investigate
@@ -55,7 +55,7 @@ st.subheader("Below you could find prediction result: ")
 ######################
 
 st.sidebar.title("Loan Applicant Info")
-st.sidebar.image("/Users/mariia/Desktop/AWS/ab.png", width=100)
+st.sidebar.image("ab.png", width=100)
 st.sidebar.write("Please choose parameters that descibe the applicant")
 
 #input features
@@ -116,43 +116,43 @@ if btn_predict:
     else:
         st.success('It is green! The aplicant has a high probability to pay the loan back!')
 
-    #prepare test set for shap explainability
-    loans = st.cache(pd.read_csv)("mycsvfile.csv")
-    X = loans.drop(columns=['loan_status','home_ownership__ANY','home_ownership__MORTGAGE','home_ownership__NONE','home_ownership__OTHER','home_ownership__OWN',
-                   'home_ownership__RENT','addr_state__AK','addr_state__AL','addr_state__AR','addr_state__AZ','addr_state__CA','addr_state__CO','addr_state__CT',
-                   'addr_state__DC','addr_state__DE','addr_state__FL','addr_state__GA','addr_state__HI','addr_state__ID','addr_state__IL','addr_state__IN',
-                   'addr_state__KS','addr_state__KY','addr_state__LA','addr_state__MA','addr_state__MD','addr_state__ME','addr_state__MI','addr_state__MN',
-                   'addr_state__MO','addr_state__MS','addr_state__MT','addr_state__NC','addr_state__ND','addr_state__NE','addr_state__NH','addr_state__NJ',
-                   'addr_state__NM','addr_state__NV','addr_state__NY','addr_state__OH','addr_state__OK','addr_state__OR','addr_state__PA','addr_state__RI',
-                   'addr_state__SC','addr_state__SD','addr_state__TN','addr_state__TX','addr_state__UT','addr_state__VA','addr_state__VT', 'addr_state__WA',
-                   'addr_state__WI','addr_state__WV','addr_state__WY'])
-    y = loans[['loan_status']]
-    y_ravel = y.values.ravel()
+#     #prepare test set for shap explainability
+#     loans = st.cache(pd.read_csv)("mycsvfile.csv")
+#     X = loans.drop(columns=['loan_status','home_ownership__ANY','home_ownership__MORTGAGE','home_ownership__NONE','home_ownership__OTHER','home_ownership__OWN',
+#                    'home_ownership__RENT','addr_state__AK','addr_state__AL','addr_state__AR','addr_state__AZ','addr_state__CA','addr_state__CO','addr_state__CT',
+#                    'addr_state__DC','addr_state__DE','addr_state__FL','addr_state__GA','addr_state__HI','addr_state__ID','addr_state__IL','addr_state__IN',
+#                    'addr_state__KS','addr_state__KY','addr_state__LA','addr_state__MA','addr_state__MD','addr_state__ME','addr_state__MI','addr_state__MN',
+#                    'addr_state__MO','addr_state__MS','addr_state__MT','addr_state__NC','addr_state__ND','addr_state__NE','addr_state__NH','addr_state__NJ',
+#                    'addr_state__NM','addr_state__NV','addr_state__NY','addr_state__OH','addr_state__OK','addr_state__OR','addr_state__PA','addr_state__RI',
+#                    'addr_state__SC','addr_state__SD','addr_state__TN','addr_state__TX','addr_state__UT','addr_state__VA','addr_state__VT', 'addr_state__WA',
+#                    'addr_state__WI','addr_state__WV','addr_state__WY'])
+#     y = loans[['loan_status']]
+#     y_ravel = y.values.ravel()
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y_ravel, test_size=0.25, random_state=42, stratify=y)
+#     X_train, X_test, y_train, y_test = train_test_split(X, y_ravel, test_size=0.25, random_state=42, stratify=y)
 
-    st.subheader('Result Interpretability - Applicant Level')
-    shap.initjs()
-    explainer = shap.Explainer(model, X_train)
-    shap_values = explainer(user_input)
-    fig = shap.plots.bar(shap_values[0])
-    st.pyplot(fig)
+#     st.subheader('Result Interpretability - Applicant Level')
+#     shap.initjs()
+#     explainer = shap.Explainer(model, X_train)
+#     shap_values = explainer(user_input)
+#     fig = shap.plots.bar(shap_values[0])
+#     st.pyplot(fig)
 
-    st.subheader('Model Interpretability - Overall')
-    shap_values_ttl = explainer(X_test)
-    fig_ttl = shap.plots.beeswarm(shap_values_ttl)
-    st.pyplot(fig_ttl)
-    st.write(""" In this chart blue and red mean the feature value, e.g. annual income blue is a smaller value e.g. 40K USD,
-    and red is a higher value e.g. 100K USD. The width of the bars represents the number of observations on a certain feature value,
-    for example with the annual_inc feature we can see that most of the applicants are within the lower-income or blue area. And on axis x negative SHAP
-    values represent applicants that are likely to churn and the positive values on the right side represent applicants that are likely to pay the loan back.
-    What we are learning from this chart is that features such as annual_inc and sub_grade are the most impactful features driving the outcome prediction.
-    The higher the salary is, or the lower the subgrade is, the more likely the applicant to pay the loan back and vice versa, which makes total sense in our case.
-    """)
+#     st.subheader('Model Interpretability - Overall')
+#     shap_values_ttl = explainer(X_test)
+#     fig_ttl = shap.plots.beeswarm(shap_values_ttl)
+#     st.pyplot(fig_ttl)
+#     st.write(""" In this chart blue and red mean the feature value, e.g. annual income blue is a smaller value e.g. 40K USD,
+#     and red is a higher value e.g. 100K USD. The width of the bars represents the number of observations on a certain feature value,
+#     for example with the annual_inc feature we can see that most of the applicants are within the lower-income or blue area. And on axis x negative SHAP
+#     values represent applicants that are likely to churn and the positive values on the right side represent applicants that are likely to pay the loan back.
+#     What we are learning from this chart is that features such as annual_inc and sub_grade are the most impactful features driving the outcome prediction.
+#     The higher the salary is, or the lower the subgrade is, the more likely the applicant to pay the loan back and vice versa, which makes total sense in our case.
+#     """)
 
-st.write("""
+# st.write("""
 
-**Author:Mariia Gusarova**
+# **Author:Mariia Gusarova**
 
-You could find more about this project on Medium [here].
-""")
+# You could find more about this project on Medium [here].
+# """)
