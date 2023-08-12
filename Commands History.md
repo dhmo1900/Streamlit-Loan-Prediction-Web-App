@@ -16,6 +16,10 @@
 3. Get mini-conda installer file, unzip it to locally install mini-conda in the ~/miniconda folder,
 and add the mini-conda path to the ~/.bashrc file
     * wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
+    
+    # For Daniel's project
+    # wget https://repo.continuum.io/miniconda/Miniconda3-py37_4.9.2-Linux-x86_64.sh -O ~/miniconda.sh
+
     * bash ~/miniconda.sh -b -p ~/miniconda 
     * echo "PATH=$PATH:$HOME/miniconda/bin" >> ~/.bashrc 
     * source ~/.bashrc
