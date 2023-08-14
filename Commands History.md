@@ -68,3 +68,12 @@ and add the mini-conda path to the ~/.bashrc file
 9. If the app is not hosting on the 8501 port, we can check the apps consuming any ports by:
     * ps aux | grep streamlit
     * kill -9 process_id
+
+
+Various ways to create a served app:
+    (1) Directly serving the app using the compute engine [Core/Processors, Storage, Network]
+    (2) Using MLOps platform such as SageMaker, or Vertex AI [?]
+    (3) Using a containerized application served using a compute engine [Container Orchestration service, Container Registry, ]
+    (4) Using a serverless deployment such as AWS Lambda and GCP Cloud functions
+    (5) Using an app engine?
+    
